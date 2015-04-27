@@ -2,7 +2,6 @@
   File:   sphone_coding.h
   Description: audio encoding module
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_coding.h,v 1.13 2004/12/21 15:09:57 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

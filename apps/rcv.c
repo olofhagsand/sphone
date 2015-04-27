@@ -2,7 +2,6 @@
   File:   rcv.c
   Description: Main Sicsophone receiver application
   Author: Olof Hagsand
-  CVS Version: $Id: rcv.c,v 1.18 2005/02/13 17:19:30 olof Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

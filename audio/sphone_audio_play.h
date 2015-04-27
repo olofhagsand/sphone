@@ -2,7 +2,6 @@
   File:   sphone_audio_play.h
   Description: audio playout indirection module
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_play.h,v 1.7 2004/02/15 22:21:15 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

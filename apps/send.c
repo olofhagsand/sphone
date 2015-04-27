@@ -2,7 +2,6 @@
   File:   send.c
   Description: Main Sicsophone sender application
   Author: Olof Hagsand
-  CVS Version: $Id: send.c,v 1.17 2005/01/28 11:06:27 olof Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

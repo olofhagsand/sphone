@@ -2,7 +2,6 @@
   File:   sphone_audio_file_play.c
   Description: audio file emulation module - playout part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_file_play.c,v 1.10 2004/06/22 14:13:09 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

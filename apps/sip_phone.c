@@ -2,7 +2,6 @@
   File:   sip_phone.c
   Description: Application using sip signaling 
   Author: Olof Hagsand
-  CVS Version: $Id: sip_phone.c,v 1.4 2005/01/13 09:37:00 olof Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

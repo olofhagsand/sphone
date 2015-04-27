@@ -2,7 +2,6 @@
   File:   sphone_audio_directsound.h
   Description: audio module for WIN32 Directsound - common part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_directsound.h,v 1.4 2004/02/06 21:28:33 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

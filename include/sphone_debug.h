@@ -2,7 +2,6 @@
   File:   sphone_debug.h
   Description: Debugging functions
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_debug.h,v 1.3 2005/01/08 16:29:41 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

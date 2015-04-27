@@ -2,7 +2,6 @@
   File:   sphone_audio_devaudio_play.c
   Description: audio module for unix /dev/audio - playout part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_devaudio_play.c,v 1.19 2004/12/21 15:09:56 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

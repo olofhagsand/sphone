@@ -2,7 +2,6 @@
   File:   sphone_audio_devaudio.c
   Description: audio module for unix /dev/audio - common part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_devaudio.c,v 1.19 2004/12/27 17:34:03 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

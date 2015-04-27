@@ -3,7 +3,6 @@
   Description: Common internal .h file. All C-files in sphone should include 
   this file.
   Author: Olof Hagsand
-  CVS Version: $Id: sphone.h,v 1.22 2004/12/27 17:34:04 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

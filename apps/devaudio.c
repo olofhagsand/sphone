@@ -2,7 +2,6 @@
   File:   devaudio.c
   Description: /dev/audio test application - check status of /dev/audio
   Author: Olof Hagsand
-  CVS Version: $Id: devaudio.c,v 1.6 2004/12/27 17:34:03 olof Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

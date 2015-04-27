@@ -2,7 +2,6 @@
   File:   sphone_error.h
   Description: Useful functions
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_error.h,v 1.4 2004/02/08 07:52:17 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

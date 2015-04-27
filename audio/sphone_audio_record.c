@@ -2,7 +2,6 @@
   File:   sphone_audio_record.c
   Description: Wrapper for all audio record modules
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_record.c,v 1.8 2004/02/01 21:42:45 olofh Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

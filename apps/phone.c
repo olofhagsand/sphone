@@ -2,7 +2,6 @@
   File:   phone.c
   Description: Main Sicsophone application
   Author: Olof Hagsand
-  CVS Version: $Id: phone.c,v 1.18 2005/01/28 11:06:26 olof Exp $
  
   This software is a part of SICSPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

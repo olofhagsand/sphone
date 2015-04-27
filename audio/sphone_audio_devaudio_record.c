@@ -2,7 +2,6 @@
   File:   sphone_audio_devaudio_record.c
   Description: audio module for unix /dev/audio - record part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_devaudio_record.c,v 1.17 2004/02/15 16:23:34 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

@@ -2,7 +2,6 @@
   File:   sphone_audio_directsound_play.h
   Description: audio module for WIN32 Directsound - playout part
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_directsound_play.h,v 1.3 2005/02/13 17:19:30 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

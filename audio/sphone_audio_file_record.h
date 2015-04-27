@@ -2,7 +2,6 @@
   File:   sphone_audio_file_record.h
   Description: audio file emulation module - recording from file
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_audio_file_record.h,v 1.4 2004/01/25 11:01:40 olofh Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  

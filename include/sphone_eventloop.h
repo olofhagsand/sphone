@@ -2,7 +2,6 @@
   File:   sphone_eventloop.h
   Description: Contains the event loop (select)
   Author: Olof Hagsand
-  CVS Version: $Id: sphone_eventloop.h,v 1.6 2005/01/28 11:06:27 olof Exp $
  
   This software is a part of SICSOPHONE, a real-time, IP-based system for 
   point-to-point delivery of audio between computer end-systems.  
