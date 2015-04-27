@@ -1,0 +1,11 @@
+26: rcv_sp_proto: rcv send_report from: 130.237.212.50:6525
+   log/log_26
+receive_send_report: expecting 29628 bytes
+receive_send_report: done
+Warning: client_input: wrong magic cookie: 0x30 from 683
+Warning: client_input: wrong magic cookie: 0x32 from 683
+....
+Warning: client_input: wrong magic cookie: 0x35 from 683
+Warning: client_input: wrong magic cookie: 0x38 from 683
+client_timeouts: clients:70 683 107 
+client_input: SP_TYPE_REPORT_RCV from 107

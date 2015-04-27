@@ -1,0 +1,144 @@
+VPATH       	= @srcdir@
+srcdir  	= @srcdir@
+top_srcdir  	= @top_srcdir@
+CC		= @CC@
+CFLAGS  	= @CFLAGS@
+# orig C-flags:
+# CFLAGS 	= -Wall -O3 -x c
+LDFLAGS 	= @LDFLAGS@
+INCLUDES 	= -I.
+RANLIB  	= @RANLIB@
+INSTALL 	= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+SUBDIRS     	= @CODECS@
+
+prefix 		= @prefix@
+exec_prefix 	= @exec_prefix@
+bindir 		= @bindir@
+
+OBJEXT 		= @OBJEXT@
+EXEEXT 		= @EXEEXT@
+AREXT 		= @AREXT@
+
+MYLIB   = libiLBC.$(AREXT)
+SRC	= \
+ anaFilter.c\
+ constants.c\
+ createCB.c\
+ doCPLC.c\
+ enhancer.c\
+ filter.c\
+ FrameClassify.c\
+ gainquant.c\
+ getCBvec.c\
+ helpfun.c\
+ hpInput.c\
+ hpOutput.c\
+ iCBConstruct.c\
+ iCBSearch.c\
+ iLBC_decode.c\
+ iLBC_encode.c\
+ LPCdecode.c\
+ LPCencode.c\
+ lsf.c\
+ packing.c\
+ StateConstructW.c\
+ StateSearchW.c\
+ syntFilter.c
+OBJECTS 	= 
+
+# iLBC_test.o
+
+
+OBJS    = $(SRC:.c=.@OBJEXT@)
+
+# linker
+all	: $(MYLIB)
+
+$(MYLIB)	: $(OBJS)
+	$(AR) cru $@ $(OBJS)
+	$(RANLIB) $@
+
+clean:
+	rm -f $(OBJS) $(MYLIB) *.core
+
+realclean: clean
+
+depend:
+	$(CC) $(DEPENDFLAGS) -DHAVE_CONFIG_H $(INCLUDES) $(CFLAGS) -MM $(SRC) > .depend
+
+
+# Dependencies for each routine
+
+anaFilter.$(OBJEXT) : anaFilter.c anaFilter.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  anaFilter.c
+
+constants.$(OBJEXT) : constants.c constants.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  constants.c
+
+createCB.$(OBJEXT) : createCB.c createCB.h iLBC_define.h constants.h
+	$(CC) $(CFLAGS) -c  createCB.c
+
+doCPLC.$(OBJEXT) : doCPLC.c doCPLC.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  doCPLC.c
+
+enhancer.$(OBJEXT) : enhancer.c enhancer.h iLBC_define.h filter.h
+	$(CC) $(CFLAGS) -c  enhancer.c
+
+filter.$(OBJEXT) : filter.c filter.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  filter.c
+
+FrameClassify.$(OBJEXT) : FrameClassify.c FrameClassify.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  FrameClassify.c
+
+gainquant.$(OBJEXT) : gainquant.c gainquant.h iLBC_define.h constants.h
+	$(CC) $(CFLAGS) -c  gainquant.c
+
+getCBvec.$(OBJEXT) : getCBvec.c getCBvec.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  getCBvec.c
+
+helpfun.$(OBJEXT) : helpfun.c helpfun.h iLBC_define.h constants.h
+	$(CC) $(CFLAGS) -c  helpfun.c
+
+hpInput.$(OBJEXT) : hpInput.c hpInput.h iLBC_define.h constants.h
+	$(CC) $(CFLAGS) -c  hpInput.c
+
+hpOutput.$(OBJEXT) : hpOutput.c hpOutput.h iLBC_define.h constants.h
+	$(CC) $(CFLAGS) -c  hpOutput.c
+
+iCBConstruct.$(OBJEXT) : iCBConstruct.c iCBConstruct.h iLBC_define.h gainquant.h getCBvec.h
+	$(CC) $(CFLAGS) -c  iCBConstruct.c
+
+iCBSearch.$(OBJEXT) : iCBSearch.c iCBSearch.h iLBC_define.h constants.h filter.h gainquant.h createCB.h
+	$(CC) $(CFLAGS) -c  iCBSearch.c
+
+iLBC_decode.$(OBJEXT) : iLBC_decode.c iLBC_decode.h iLBC_define.h constants.h StateConstructW.h iCBConstruct.h LPCdecode.h doCPLC.h helpfun.h packing.h enhancer.h hpOutput.h syntFilter.h
+	$(CC) $(CFLAGS) -c  iLBC_decode.c
+
+iLBC_encode.$(OBJEXT) : iLBC_encode.c iLBC_encode.h iLBC_define.h LPCencode.h FrameClassify.h StateSearchW.h StateConstructW.h helpfun.h constants.h packing.h iCBSearch.h iCBConstruct.h hpInput.h anaFilter.h syntFilter.h
+	$(CC) $(CFLAGS) -c  iLBC_encode.c
+
+LPCdecode.$(OBJEXT) : LPCdecode.c LPCdecode.h iLBC_define.h helpfun.h lsf.h constants.h
+	$(CC) $(CFLAGS) -c  LPCdecode.c
+
+LPCencode.$(OBJEXT) : LPCencode.c LPCencode.h iLBC_define.h helpfun.h lsf.h constants.h
+	$(CC) $(CFLAGS) -c  LPCencode.c
+
+lsf.$(OBJEXT) : lsf.c lsf.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  lsf.c
+
+packing.$(OBJEXT) : packing.c packing.h iLBC_define.h
+	$(CC) $(CFLAGS) -c  packing.c
+
+StateConstructW.$(OBJEXT) : StateConstructW.c StateConstructW.h iLBC_define.h filter.h
+	$(CC) $(CFLAGS) -c  StateConstructW.c
+
+StateSearchW.$(OBJEXT) : StateSearchW.c StateSearchW.h iLBC_define.h filter.h helpfun.h
+	$(CC) $(CFLAGS) -c  StateSearchW.c
+
+syntFilter.$(OBJEXT) : syntFilter.c syntFilter.h iLBC_define.h 
+	$(CC) $(CFLAGS) -c  syntFilter.c
+
+iLBC_test.$(OBJEXT) : iLBC_test.c iLBC_define.h iLBC_encode.h iLBC_decode.h
+	$(CC) $(CFLAGS) -c  iLBC_test.c
+

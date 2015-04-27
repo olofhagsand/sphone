@@ -1,0 +1,46 @@
+This is the independent audio module in the Sicsophone.  The module
+consists of different audio implementation. Every implementation needs
+to plug in to the sicsophone buy obeying certain rules. This is
+easiest described by illustrating the steps you need to make when
+adding a new audio module to the sicsophone. This will be shown below.
+
+Before you start, an audio module consists of a record and play
+part. You may add only one, you do not need to add both, althoughthis
+is most common. The play and record parts are completely independent
+and should be placed in separate files.
+
+Both the play and record modules have an api: play_api, and
+record_api. They define a set of functions that each module have to
+implement. The record_api has the following functions:
+	init
+	start
+	poll
+	ioctl
+	exit
+
+The play_api has the following functions:
+	start
+	play
+	play_pos		       
+	ioctl
+	exit
+
+A play API can either be a FIFO or SHBUF player. The former is easier
+and need only implement a sub-set of the API.
+
+To add a new audio module X, do the following:
+
+1. Add the new module name in audio/sphone_audio_play.h: enum audio_type.
+
+2. Add new files, for example, 
+	sphone_audio_X_play.h
+	sphone_audio_X_play.c
+	sphone_audio_X_record.h
+	sphone_audio_X_record.c
+You can use existing modules as templates.
+
+3. Add the .c files in the SRC variable in audio/Makefile.in
+
+4. Edit the following files to call the init function for your new module:
+	sphone_audio_play.c: audio_play_init()
+	sphone_audio_record.c: audio_record_init()

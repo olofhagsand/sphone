@@ -1,0 +1,47 @@
+Building the SICSOPHONE on a WIN32
+==================================
+
+With no options to copnfigure, it should be possible to build the sicsophone
+on a cygwin environment with no options>
+> tar xzf sicsophone.tga
+> cd sicsophone
+> configure
+> make
+
+If you want to build "native" code with the microsoft Visual C++
+compiler, you will have to make some small tweaks. I am sure this can
+be done in a more elegant way, but I am not so familiar with he WIN32
+environment (and I am not sure I want to be).
+
+First, you need to get the VisualC++ compiler. I bought the .NET VC++,
+but I have used the same method on many other versions as well. You
+should also install it, you should know that you need very little to
+be able to compile the sicsophone: really only the compiler itself
+(cl.exe) a couple of include files, and libraries. Nothing fancy. I
+install as little set as possible.
+
+Second, tell the sicsophone configure you want it to use the visual/C++ compiler:
+> ./configure --enable-vc
+
+Then, you need to tell the environment where the compiler binary
+(cl.exe) is. Suppose your VC++ release is in $(VC). Usually, it is in
+some braindead place such as "C:/Program/Microsoft Visual Studio .NET
+2003/", I use to move it to C:/VC, or some other typer-friendly place.
+
+You need to add this to your PATH, INCLUDE and LIB. You can either add
+it in the environment variables in your system (Control Panel/System),
+or you can add it in your shell startup file, such as .bashrc if you
+use bash.
+
+Here is where I found the stuff (in DOS language):
+PATH=$PATH:$(VC)/Vc7/bin:$(VC)/Common7/IDE
+INCLUDE=$(VC)\VC7\PLATFORMSDK\INCLUDE;$(VC)\VC7\INCLUDE
+LIB=$(VC)\Vc7\PlatformSDK\Lib;$(VC)\Vc7\lib
+
+In UNIX-speak:
+export PATH=$PATH:$(VC)/Vc7/bin:/cygdrive/d/Program/VC/Common7/IDE
+export INCLUDE=$(VC)/VC7/PLATFORMSDK/INCLUDE;$(VC)Program/VC/VC7/INCLUDE
+export LIB=$(VC)/Vc7/PlatformSDK/Lib;$(VC)/Vc7/lib
+(But I never got INCLUDE and LIB to work in UNIX-speak)
+
+Then just make and run the applications as the others.

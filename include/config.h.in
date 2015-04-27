@@ -1,0 +1,41 @@
+/* Default values for constants */
+#define SPHONE_VERSION "2.0"
+#undef AUTOCONF
+#undef DEBUG
+#undef WINSOCK
+#undef WIN32
+#undef HAVE_SA_LEN
+#undef HAVE_SIN_LEN
+#undef HAVE__DEV_AUDIO
+#undef HAVE_SYS_AUDIOIO_H
+#undef HAVE_DIRECTSOUND
+
+/* LIBS */
+#undef HAVE_LIBM
+#undef HAVE_LIBSOCKET
+#undef HAVE_LIBNSL
+
+/* AC_CHECK_FUNCS */
+#undef HAVE_INET_ATON
+#undef HAVE_STRSEP
+#undef HAVE_SIGACTION
+#undef HAVE_SIGVEC
+#undef HAVE_BCOPY
+#undef HAVE_MEMSET
+/* iLBC codec from global IP sound */
+#undef HAVE_ILBC
+/* My SIP implementation */
+#undef HAVE_SIP
+
+#undef HAVE_SA_LEN
+#undef HAVE_SIN_LEN
+
+#if defined(WIN32)
+typedef long int32_t;
+typedef short int16_t;
+typedef char int8_t;
+typedef unsigned long uint32_t;
+typedef unsigned short uint16_t;
+typedef unsigned char uint8_t;
+#endif
+

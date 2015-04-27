@@ -1,0 +1,5 @@
+The logging facility in rcv (-L option) is inherited from taurus/ the
+old sicsophone. It gives logs in a cryptic fashion:
+-I <sec> <usec>
+-E <sec> <usec> <len> <flags> <seq> <ts sec> <ts frac>
+-T <sec> <usec>

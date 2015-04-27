@@ -1,0 +1,69 @@
+# CVS Version: $Id: Makefile.in,v 1.5 2004/02/01 21:42:44 olofh Exp $
+
+VPATH       	= @srcdir@
+srcdir  	= @srcdir@
+top_srcdir  	= @top_srcdir@
+CC		= @CC@
+CFLAGS  	= @CFLAGS@ 
+LIBS    	= @LIBS@
+LDFLAGS 	= @LDFLAGS@
+INCLUDES 	= -I../include -I$(top_srcdir)/include -I$(top_srcdir)
+RANLIB  	= @RANLIB@
+INSTALL 	= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+
+prefix 		= @prefix@
+exec_prefix 	= @exec_prefix@
+bindir 		= @bindir@
+
+OBJEXT 		= @OBJEXT@
+EXEEXT 		= @EXEEXT@
+AREXT 		= @AREXT@
+
+SRC     = sphone_audio_play.c sphone_audio_record.c \
+	sphone_audio_file_record.c sphone_audio_file_play.c \
+	sphone_audio_devaudio_play.c sphone_audio_devaudio_record.c \
+	sphone_audio_devaudio.c \
+	sphone_audio_directsound.c sphone_audio_directsound_play.c \
+	sphone_audio_directsound_record.c	
+
+
+OBJS    = $(SRC:.c=.@OBJEXT@)
+MYLIBS  = libsphoneaudio.$(AREXT)
+
+all:	$(MYLIBS)
+
+clean:
+	rm -f $(OBJS) $(MYLIBS) *.core
+
+realclean: clean
+	rm -f Makefile
+
+install:	all
+	for i in $(MYLIBS); do \
+	  $(INSTALL_PROGRAM) $$i $(DESTDIR)$(bindir)/$$i; \
+	done
+
+uninstall:
+	for i in $(MYLIBS); do \
+	  rm -f $(DESTDIR)$(bindir)/$$i; \
+	done
+
+.SUFFIXES:
+.SUFFIXES: .c .$(OBJEXT)
+
+.c.$(OBJEXT):
+	$(CC) @DEFS@ $(INCLUDES) $(CFLAGS) -c $<
+
+libsphoneaudio.$(AREXT) : $(OBJS)
+	$(AR) cru $@ $(OBJS)
+	$(RANLIB) $@
+
+TAGS:
+	find . -name '*.[chyl]' -print | etags -
+
+depend:
+	$(CC) $(DEPENDFLAGS) @DEFS@ $(INCLUDES) $(CFLAGS) -MM $(SRC) > .depend
+
+#include .depend
+

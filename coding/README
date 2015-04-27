@@ -1,0 +1,34 @@
+This is the independent coding module in the Sicsophone.  The module
+consists of different coding implementation. Every implementation needs
+to plug in to the sicsophone buy obeying certain rules. This is
+easiest described by illustrating the steps you need to make when
+adding a new coding module to the sicsophone. This will be shown below.
+
+The coding modules have an api: coding_api defined in
+coding/sphone_coding.h.  It defines a set of functions that each
+module have to implement. The coding_api has the following functions:
+	init
+	encode
+	decode
+	encodelen
+	decodelen
+	sanity
+	exit
+
+
+To add a new coding module X, do the following:
+
+1. Add the new module name in coding/sphone_coding.h: enum coding_type.
+
+2. Add it in the mapping array coding_mapping in sphone_coding.c
+
+3. Add new files, for example, 
+	sphone_coding_X.h
+	sphone_coding_X.c
+You can use existing modules as templates.
+
+4. Add the .c files in the SRC variable in coding/Makefile.in
+
+5. Edit the following file to call the init function for your new module:
+	sphone_coding.c: coding_init()
+

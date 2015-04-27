@@ -1,0 +1,77 @@
+# CVS Version: $Id: Makefile.in,v 1.5 2005/01/31 18:26:19 olof Exp $
+
+VPATH       	= @srcdir@
+srcdir  	= @srcdir@
+top_srcdir  	= @top_srcdir@
+CC		= @CC@
+CFLAGS  	= @CFLAGS@ 
+LIBS    	= @LIBS@ ../src/libsphone.@AREXT@
+LDFLAGS 	= @LDFLAGS@
+INCLUDES 	= -I../include -I$(top_srcdir)/include -I$(top_srcdir)
+RANLIB  	= @RANLIB@
+INSTALL 	= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+
+RES		= @RES@  # REsource files: still a hack
+
+prefix 		= @prefix@
+exec_prefix 	= @exec_prefix@
+bindir 		= @bindir@
+
+OBJEXT 		= @OBJEXT@
+EXEEXT 		= @EXEEXT@
+AREXT 		= @AREXT@
+
+SPS_SRC	= sp.c
+SPS_OBJS    = $(SPS_SRC:.c=.@OBJEXT@)
+
+SPC_SRC	= spc_rcv.c spc_send.c sp.c
+SPC_OBJS    = $(SPC_SRC:.c=.@OBJEXT@)
+
+APPSRC  = sps.c spc.c
+APPS	= $(APPSRC:.c=@EXEEXT@)
+APPOBJ  = $(APPSRC:.c=.@OBJEXT@)
+
+all:	$(APPS)
+
+install:	all
+	for i in $(APPS); do \
+	  $(INSTALL_PROGRAM) $$i $(DESTDIR)$(bindir)/$$i; \
+	done
+
+uninstall:
+	for i in $(APPS); do \
+	  rm -f $(DESTDIR)$(bindir)/$$i; \
+	done
+
+clean:
+	rm -f $(APPS) $(APPOBJ) $(SPC_OBJS) *.core
+
+realclean: clean
+	rm -rf Makefile
+
+.SUFFIXES:
+.SUFFIXES: .c .$(OBJEXT)
+
+.c.$(OBJEXT):
+	$(CC) @DEFS@ $(INCLUDES) $(CFLAGS) -c $<
+
+sps$(EXEEXT) :sps.$(OBJEXT) $(SPS_OBJS)
+	$(CC) $(LDFLAGS) sps.$(OBJEXT) $(SPS_OBJS) $(LIBS) -o $@
+
+# Resource files on windoze
+spc.res:	fool.ico spc.rc
+	rc /fo spc.res spc.rc 
+
+spc$(EXEEXT) :spc.$(OBJEXT) $(SPC_OBJS) $(RES)
+	$(CC) $(LDFLAGS) spc.$(OBJEXT) $(SPC_OBJS) $(LIBS) $(RES) -o $@
+
+TAGS:
+	find . -name '*.[chyl]' -print | etags -
+
+depend:
+	for p in $(APPSRC); do \
+		$(CC) $(DEPENDFLAGS) @DEFS@ -MM $(INCLUDES) $(CFLAGS) $$p >> .depend;\
+	done
+
+#include .depend

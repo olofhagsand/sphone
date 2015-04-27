@@ -1,0 +1,28 @@
+This directory contains utilities that are in some way related to the
+sicsophone but not a central part of it.
+
+The applications are:
+	sps	- Sicsophone server
+	spc	- Sicsophone client
+
+The sicsophone server/client operation works as this: There is a
+single server (sps). When the clients start, they register with the
+server. The server maintains a list of clients that is updated
+dynamically. The server initiates a phone conversation by selecting a
+pair (sender, receiver) among the client list. The sender is notified
+with a "start" message from the server. The sender sends a "req"
+message to the receiver client, the receiver spawns a sicsophone
+receiver and sends a "resp" message back. The sender client then
+spawns a sicsophone sender. When the receiver sicsophone is done, the
+receiver client dumps the data to the server, which in turn saves it
+in a database.
+
+Logfiles are constructed as follows:
+Their name is:
+ <prefix>_<testid>
+The beginning of the file looks like this:
+ id:    <testid>
+ src:   <srcaddr>/<srcport>
+ dst:   <dstaddr>/<dstport>
+ start: <date>
+ dur:   <duration>

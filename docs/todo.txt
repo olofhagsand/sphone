@@ -1,0 +1,31 @@
+1. Error Handling
+-----------------
+A general weak point. In particular, memory and file descriptor
+cleanup - the code leaks quite a lot. In particular, the audio and
+coding modules should be tightened since these are expected to grow
+substantially.
+
+Error handling in win32 directsound code is confused (DS_OK?, HRESULT?)
+
+2. Misc
+-------
+More general channel handling.
+Change coding dynamically
+
+3. Coding
+---------
+Baastians coder.
+
+5. GUI
+------
+gtk, graphics?
+
+6. Signaling
+------------
+Yes, I know, but this is what everyone else is doing,...
+I also think that H.323 and SIP sucks equally.
+
+7. Windows
+----------
+autoconf stuff for visual-c++ (how much can you do?)
+The directsound code needs tidying - looks awful.

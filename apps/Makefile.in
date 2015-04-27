@@ -1,0 +1,86 @@
+# CVS Version: $Id: Makefile.in,v 1.10 2005/01/13 11:47:28 olof Exp $
+
+VPATH       	= @srcdir@
+srcdir  	= @srcdir@
+top_srcdir  	= @top_srcdir@
+CC		= @CC@
+CFLAGS  	= @CFLAGS@ 
+LIBS    	= @LIBS@
+LDFLAGS 	= @LDFLAGS@
+INCLUDES 	= @INCLUDES@ -I../include -I$(top_srcdir)/include -I$(top_srcdir)
+RANLIB  	= @RANLIB@
+INSTALL 	= @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+
+prefix 		= @prefix@
+exec_prefix 	= @exec_prefix@
+bindir 		= @bindir@
+
+OBJEXT 		= @OBJEXT@
+EXEEXT 		= @EXEEXT@
+AREXT 		= @AREXT@
+
+MYLIBS  = ../src/libsphone.$(AREXT) ../coding/libsphonecoding.$(AREXT) \
+	  ../audio/libsphoneaudio.$(AREXT)
+
+APPSRC  = send.c rcv.c devaudio.c phone.c sip_phone.c
+APPS	= $(APPSRC:.c=@EXEEXT@)
+APPOBJ  = $(APPSRC:.c=.@OBJEXT@)
+
+all:	$(APPS)
+
+install:	all
+	for i in $(APPS); do \
+	  $(INSTALL_PROGRAM) $$i $(DESTDIR)$(bindir)/$$i; \
+	done
+
+uninstall:
+	for i in $(APPS); do \
+	  rm -f $(DESTDIR)$(bindir)/$$i; \
+	done
+
+clean:
+	rm -f $(APPS) $(APPOBJ) *.core
+
+realclean: clean
+	rm -rf Makefile
+
+.SUFFIXES:
+.SUFFIXES: .c .$(OBJEXT)
+
+.c.$(OBJEXT):
+	$(CC) @DEFS@ $(INCLUDES) $(CFLAGS) -c $<
+
+send$(EXEEXT) :send.$(OBJEXT) $(MYLIBS)
+	$(CC) $(LDFLAGS) send.$(OBJEXT) $(MYLIBS) $(LIBS) -o $@
+
+rcv$(EXEEXT) :rcv.$(OBJEXT) $(MYLIBS)
+	$(CC) $(LDFLAGS) rcv.$(OBJEXT) $(MYLIBS) $(LIBS) -o $@
+
+phone$(EXEEXT) :phone.$(OBJEXT) $(MYLIBS)
+	$(CC) $(LDFLAGS) phone.$(OBJEXT) $(MYLIBS) $(LIBS) -o $@
+
+devaudio$(EXEEXT) :devaudio.$(OBJEXT) $(MYLIBS)
+	$(CC) $(LDFLAGS) devaudio.$(OBJEXT) $(MYLIBS) $(LIBS) -o $@
+
+sip_phone$(EXEEXT) :sip_phone.$(OBJEXT) $(MYLIBS)
+	$(CC) $(LDFLAGS) sip_phone.$(OBJEXT) $(MYLIBS) $(LIBS) -o $@
+
+TAGS:
+	find . -name '*.[chyl]' -print | etags -
+
+depend:
+	for p in $(APPSRC); do \
+		$(CC) $(DEPENDFLAGS) @DEFS@ -MM $(INCLUDES) $(CFLAGS) $$p >> .depend;\
+	done
+
+$(MYLIBS): FORCE
+	(cd ../src; $(MAKE) $(MFLAGS) libsphone.$(AREXT);)
+	(cd ../coding; $(MAKE) $(MFLAGS) libsphonecoding.$(AREXT);)
+	(cd ../audio; $(MAKE) $(MFLAGS) libsphoneaudio.$(AREXT);)
+
+#	(cd ../sip; $(MAKE) $(MFLAGS) libsip.$(AREXT);)
+
+FORCE:	
+
+#include .depend

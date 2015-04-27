@@ -1,0 +1,157 @@
+From MSDN
+Writing to the Primary Buffer
+
+For applications that require specialized mixing or other effects not
+supported by secondary buffers, DirectSound allows direct access to
+the primary buffer.
+
+When you obtain write access to the primary buffer, other DirectSound
+features become unavailable. Secondary buffers are not mixed, so
+hardware-accelerated mixing is unavailable.
+
+Most applications should use secondary buffers instead of directly
+accessing the primary buffer. Applications can write to a secondary
+buffer easily because the larger buffer size provides more time to
+write the next block of data, thereby minimizing the risk of gaps in
+the audio. Even if an application has simple audio requirements, such
+as using one stream of audio data that does not require mixing, it
+will achieve better performance by using a secondary buffer to play
+its audio data.
+
+Note Writing directly to the primary buffer offers no advantages under
+the Windows driver model (WDM). Under WDM, the primary buffer is in
+effect a secondary buffer that is mixed by the kernel mixer. For more
+information on WDM, see DirectSound Driver Models.
+
+You cannot specify the size of the primary buffer, and you must accept
+the returned size after the buffer is created. A primary buffer is
+typically very small, so if your application writes directly to this
+kind of buffer, it must write blocks of data at short intervals to
+prevent the previously written data from being replayed.
+
+You cannot obtain write access to a primary buffer unless it exists in
+hardware. To determine whether this is the case, call the
+IDirectSoundBuffer8::GetCaps method and check for the
+DSBCAPS_LOCHARDWARE flag in the dwFlags member of the DSBCAPS
+structure that is returned. If you attempt to lock a primary buffer
+that is emulated in software, the call will fail.
+
+You create an accessible primary buffer by specifying the
+DSBCAPS_PRIMARYBUFFER flag in the DSBUFFERDESC structure passed to the
+IDirectSound8::CreateSoundBuffer method. If you want to write to the
+buffer, the cooperative level must be DSSCL_WRITEPRIMARY.
+
+Primary sound buffers must be played with looping. Ensure that the
+DSBPLAY_LOOPING flag is set.
+
+The following example shows how to obtain write access to the primary
+buffer. Note that the primary buffer supports only the
+IDirectSoundBuffer interface, not IDirectSoundBuffer8.
+
+BOOL AppCreateWritePrimaryBuffer( 
+  LPDIRECTSOUND8 lpDirectSound, 
+  LPDIRECTSOUNDBUFFER *lplpDsb, 
+  LPDWORD lpdwBufferSize, 
+  HWND hwnd) 
+{ 
+  DSBUFFERDESC dsbdesc; 
+  DSBCAPS dsbcaps; 
+  HRESULT hr; 
+  WAVEFORMATEX wf;
+ 
+  // Set up wave format structure. 
+  memset(&wf, 0, sizeof(WAVEFORMATEX)); 
+  wf.wFormatTag = WAVE_FORMAT_PCM; 
+  wf.nChannels = 2; 
+  wf.nSamplesPerSec = 22050; 
+  wf.nBlockAlign = 4; 
+  wf.nAvgBytesPerSec = 
+      wf.nSamplesPerSec * wf.nBlockAlign; 
+  wf.wBitsPerSample = 16; 
+ 
+  // Set up DSBUFFERDESC structure. 
+  memset(&dsbdesc, 0, sizeof(DSBUFFERDESC));
+  dsbdesc.dwSize = sizeof(DSBUFFERDESC); 
+  dsbdesc.dwFlags = DSBCAPS_PRIMARYBUFFER; 
+  // Buffer size is determined by sound hardware. 
+  dsbdesc.dwBufferBytes = 0; 
+  dsbdesc.lpwfxFormat = NULL; // Must be NULL for primary buffers. 
+ 
+  // Obtain write-primary cooperative level. 
+  hr = lpDirectSound->SetCooperativeLevel(hwnd, DSSCL_WRITEPRIMARY); 
+  if SUCCEEDED(hr) 
+  { 
+    // Try to create buffer. 
+    hr = lpDirectSound->CreateSoundBuffer(&dsbdesc, 
+      lplpDsb, NULL); 
+    if SUCCEEDED(hr) 
+    { 
+      // Set primary buffer to desired format. 
+      hr = (*lplpDsb)->SetFormat(&wf); 
+      if SUCCEEDED(hr) 
+      { 
+        // If you want to know the buffer size, call GetCaps. 
+        dsbcaps.dwSize = sizeof(DSBCAPS); 
+        (*lplpDsb)->GetCaps(&dsbcaps); 
+        *lpdwBufferSize = dsbcaps.dwBufferBytes; 
+        return TRUE; 
+      } 
+    } 
+  } 
+  // Failure. 
+  *lplpDsb = NULL; 
+  *lpdwBufferSize = 0; 
+  return FALSE; 
+} 
+ 
+
+The following example illustrates how an application might implement a custom mixer. The AppMixIntoPrimaryBuffer sample function would have to be called at regular intervals, frequently enough to prevent the sound device from repeating blocks of data. The CustomMixer function is an application-defined function that mixes several streams together, as specified in an application-defined APPSTREAMINFO structure, and writes the result to the specified pointer.
+
+BOOL AppMixIntoPrimaryBuffer( 
+    APPSTREAMINFO* lpAppStreamInfo, 
+    LPDIRECTSOUNDBUFFER lpDsbPrimary, 
+    DWORD dwDataBytes, 
+    DWORD dwOldPos, 
+    LPDWORD lpdwNewPos) 
+{ 
+  LPVOID lpvPtr1; 
+  DWORD dwBytes1; 
+  LPVOID lpvPtr2; 
+  DWORD dwBytes2; 
+  HRESULT hr; 
+  // Obtain write pointer. 
+  hr = lpDsbPrimary->Lock(dwOldPos, dwDataBytes, 
+          &lpvPtr1, &dwBytes1, 
+          &lpvPtr2, &dwBytes2, 0); 
+ 
+  // If DSERR_BUFFERLOST is returned, restore and retry lock. 
+ 
+  if (DSERR_BUFFERLOST == hr) 
+  { 
+    lpDsbPrimary->Restore(); 
+    hr = lpDsbPrimary->Lock(dwOldPos, dwDataBytes,
+            &lpvPtr1, &dwBytes1, 
+            &lpvPtr2, &dwBytes2, 0); 
+  } 
+  if SUCCEEDED(hr) 
+  { 
+    // Mix data into the returned pointers. 
+    CustomMixer(lpAppStreamInfo, lpvPtr1, dwBytes1); 
+    *lpdwNewPos = dwOldPos + dwBytes1; 
+    if (NULL != lpvPtr2) 
+    { 
+      CustomMixer(lpAppStreamInfo, lpvPtr2, dwBytes2); 
+      *lpdwNewPos = dwBytes2; // Because it wrapped around. 
+    } 
+    // Release the data back to DirectSound. 
+    hr = lpDsbPrimary->Unlock(lpvPtr1, dwBytes1, 
+            lpvPtr2, dwBytes2); 
+    if SUCCEEDED(hr) 
+    { 
+      return TRUE; 
+    } 
+  } 
+  // Lock or Unlock failed. 
+  return FALSE; 
+} 
+ 
